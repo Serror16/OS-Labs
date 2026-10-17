@@ -1,0 +1,33 @@
+# Local editor and operating-system files
+.idea/
+.vscode/
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Build outputs
+*.exe
+*.o
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.stackdump
+build/
+cmake-build-*/
+
+# Temporary files
+~$*.docx
+*.tmp
+*.bak
+*.swp
+*.swo
+__pycache__/
+*.pyc
+report_work/
+
+
+/OS_Lab2/src/lab2-test-*.txt
+/OS_Lab2/src/result.txt
+/OS_Lab2/src/procmon_result*.txt
