@@ -36,8 +36,7 @@ static size_t min_size(size_t a, size_t b)
 }
 
 
-static void process_points(Job *job)
-{
+static void process_points(Job *job) {
     size_t i, cluster;
     job->changed = 0;
     memset(job->partial, 0, job->clusters * sizeof(*job->partial));
@@ -70,16 +69,14 @@ static void process_points(Job *job)
     }
 }
 
-static DWORD WINAPI worker_entry(LPVOID argument)
-{
+static DWORD WINAPI worker_entry(LPVOID argument) {
     process_points((Job *)argument);
     return 0;
 }
 
 int kmeans_run(const Point *points, size_t point_count, size_t clusters,
                size_t threads, Point *centers, size_t *labels,
-               size_t *counts, KMeansStats *stats)
-{
+               size_t *counts, KMeansStats *stats) {
     Job *jobs;
     Partial *partials, *totals;
     LARGE_INTEGER frequency, start, finish;

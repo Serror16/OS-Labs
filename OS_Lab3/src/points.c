@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int read_points(const char *path, Point **result, size_t *result_count)
-{
+int read_points(const char *path, Point **result, size_t *result_count) {
     FILE *file = fopen(path, "r");
     Point *points = NULL;
     size_t count, i;

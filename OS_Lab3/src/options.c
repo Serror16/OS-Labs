@@ -6,16 +6,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-void print_usage(const char *program)
-{
+void print_usage(const char *program) {
     fprintf(stderr,
             "Usage: %s --input FILE --clusters K --threads P\n"
             "Input file: N on the first line, then N pairs of coordinates x y.\n",
             program);
 }
 
-static int positive_number(const char *text, size_t *number)
-{
+static int positive_number(const char *text, size_t *number) {
     char *end;
     unsigned long long value;
     if (!*text || *text == '-') return 0;
@@ -26,8 +24,7 @@ static int positive_number(const char *text, size_t *number)
     return 1;
 }
 
-int parse_options(int argc, char **argv, Options *options)
-{
+int parse_options(int argc, char **argv, Options *options) {
     int i;
     memset(options, 0, sizeof(*options));
     if (argc != 7) return 0;
