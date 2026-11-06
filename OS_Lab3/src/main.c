@@ -25,13 +25,13 @@ int main(int argc, char **argv) {
     }
     if (options.clusters > SIZE_MAX / sizeof(*centers) ||
         point_count > SIZE_MAX / sizeof(*labels) ||
-        options.clusters > SIZE_MAX / sizeof(*counts)) goto memory_error;
+        options.clusters > SIZE_MAX / sizeof(*counts)) goto run_error;
     centers = malloc(options.clusters * sizeof(*centers));
     labels = malloc(point_count * sizeof(*labels));
     counts = malloc(options.clusters * sizeof(*counts));
-    if (!centers || !labels || !counts) goto memory_error;
+    if (!centers || !labels || !counts) goto run_error;
     if (!kmeans_run(points, point_count, options.clusters, options.threads,
-                    centers, labels, counts, &stats)) goto memory_error;
+                    centers, labels, counts, &stats)) goto run_error;
 
     printf("iterations=%zu elapsed_seconds=%.9f\n",
            stats.iterations, stats.elapsed_seconds);
@@ -41,8 +41,8 @@ int main(int argc, char **argv) {
     result = EXIT_SUCCESS;
     goto cleanup;
 
-memory_error:
-    fprintf(stderr, "Cannot allocate memory or create worker threads.\n");
+run_error:
+    fprintf(stderr, "K-means failed.\n");
 cleanup:
     free(counts);
     free(labels);

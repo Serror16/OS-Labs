@@ -3,6 +3,7 @@
 
 #include "kmeans.h"
 
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,7 +36,7 @@ static size_t min_size(size_t a, size_t b) {
 }
 
 
-static void process_points(Job *job) {
+static int process_points(Job *job) {
     job->changed = 0;
     memset(job->partial, 0, job->clusters * sizeof(*job->partial));
 
@@ -45,11 +46,13 @@ static void process_points(Job *job) {
         double dx = point.x - job->centers[0].x;
         double dy = point.y - job->centers[0].y;
         double best_distance = dx * dx + dy * dy;
+        if (!isfinite(best_distance)) return 0;
         for (size_t cluster = 1; cluster < job->clusters; cluster++) {
             double distance;
             dx = point.x - job->centers[cluster].x;
             dy = point.y - job->centers[cluster].y;
             distance = dx * dx + dy * dy;
+            if (!isfinite(distance)) return 0;
             if (distance < best_distance) {
                 best_distance = distance;
                 best = cluster;
@@ -63,13 +66,15 @@ static void process_points(Job *job) {
 
         job->partial[best].sum_x += point.x;
         job->partial[best].sum_y += point.y;
+        if (!isfinite(job->partial[best].sum_x) ||
+            !isfinite(job->partial[best].sum_y)) return 0;
         ++job->partial[best].count;
     }
+    return 1;
 }
 
 static DWORD WINAPI worker_entry(LPVOID argument) {
-    process_points((Job *)argument);
-    return 0;
+    return process_points((Job *)argument);
 }
 
 int kmeans_run(const Point *points, size_t point_count, size_t clusters,
@@ -79,6 +84,7 @@ int kmeans_run(const Point *points, size_t point_count, size_t clusters,
     Partial *partials, *totals;
     LARGE_INTEGER frequency, start, finish;
     size_t i, cluster, iteration, created, changed;
+    int computation_ok;
 
     size_t thread_count = min_size(threads, point_count);
     size_t points_per_thread = point_count / thread_count;
@@ -131,22 +137,27 @@ int kmeans_run(const Point *points, size_t point_count, size_t clusters,
             jobs[i].handle = CreateThread(NULL, 0, worker_entry, &jobs[i], 0, NULL);
             if (!jobs[i].handle) {
                 for (i = 1; i <= created; i++) {
-                    WaitForSingleObject(jobs[i].handle, INFINITE);
+                    if (WaitForSingleObject(jobs[i].handle, INFINITE) != WAIT_OBJECT_0) {
+                        ExitProcess(EXIT_FAILURE);
+                    }
                     CloseHandle(jobs[i].handle);
                 }
-                free(jobs);
-                free(partials);
-                free(totals);
-                return 0;
+                goto fail;
             }
             created++;
         }
 
-        process_points(&jobs[0]);
+        computation_ok = process_points(&jobs[0]);
         for (i = 1; i < thread_count; i++) {
-            WaitForSingleObject(jobs[i].handle, INFINITE);
+            DWORD exit_code = 0;
+            if (WaitForSingleObject(jobs[i].handle, INFINITE) != WAIT_OBJECT_0) {
+                ExitProcess(EXIT_FAILURE);
+            }
+            if (!GetExitCodeThread(jobs[i].handle, &exit_code) || exit_code != 1)
+                computation_ok = 0;
             CloseHandle(jobs[i].handle);
         }
+        if (!computation_ok) goto fail;
 
 
 
@@ -158,6 +169,10 @@ int kmeans_run(const Point *points, size_t point_count, size_t clusters,
                 totals[cluster].sum_y += jobs[i].partial[cluster].sum_y;
                 totals[cluster].count += jobs[i].partial[cluster].count;
             }
+        }
+        for (cluster = 0; cluster < clusters; cluster++) {
+            if (!isfinite(totals[cluster].sum_x) ||
+                !isfinite(totals[cluster].sum_y)) goto fail;
         }
         for (cluster = 0; cluster < clusters; cluster++) { //проходит по всем кластерам для пересчёта центров
             counts[cluster] = totals[cluster].count;
@@ -176,4 +191,10 @@ int kmeans_run(const Point *points, size_t point_count, size_t clusters,
     free(partials);
     free(totals);
     return 1;
+
+fail:
+    free(jobs);
+    free(partials);
+    free(totals);
+    return 0;
 }
