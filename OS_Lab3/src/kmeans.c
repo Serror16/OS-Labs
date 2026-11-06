@@ -36,17 +36,16 @@ static size_t min_size(size_t a, size_t b) {
 
 
 static void process_points(Job *job) {
-    size_t i, cluster;
     job->changed = 0;
     memset(job->partial, 0, job->clusters * sizeof(*job->partial));
 
-    for (i = job->begin; i < job->end; i++) {
+    for (size_t i = job->begin; i < job->end; i++) {
         Point point = job->points[i];
         size_t best = 0;
         double dx = point.x - job->centers[0].x;
         double dy = point.y - job->centers[0].y;
         double best_distance = dx * dx + dy * dy;
-        for (cluster = 1; cluster < job->clusters; cluster++) {
+        for (size_t cluster = 1; cluster < job->clusters; cluster++) {
             double distance;
             dx = point.x - job->centers[cluster].x;
             dy = point.y - job->centers[cluster].y;
@@ -80,6 +79,7 @@ int kmeans_run(const Point *points, size_t point_count, size_t clusters,
     Partial *partials, *totals;
     LARGE_INTEGER frequency, start, finish;
     size_t i, cluster, iteration, created, changed;
+
     size_t thread_count = min_size(threads, point_count);
     size_t points_per_thread = point_count / thread_count;
     size_t extra_points = point_count % thread_count;
