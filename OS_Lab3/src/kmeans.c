@@ -26,11 +26,10 @@ typedef struct {
     size_t clusters;
     size_t changed; //количество точек этого потока, у которых на текущей итерации изменился номер кластера.
     Partial *partial; //адрес массива из К частичных результатов именно этого потока
-    HANDLE handle; //дескриптор созданного потока Windows
+    HANDLE handle;
 } Job;
 
-static size_t min_size(size_t a, size_t b)
-{
+static size_t min_size(size_t a, size_t b) {
     if (a < b) return a;
     return b;
 }
