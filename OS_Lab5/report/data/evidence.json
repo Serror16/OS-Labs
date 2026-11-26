@@ -1,0 +1,42 @@
+{
+  "linked": {
+    "returncode": 0,
+    "stdout": "Commands: 1 A B | 2 N x1 ... xN | 0 (switch, runtime program only)\nEnd input with Ctrl+Z then Enter on Windows.\n> GCF(54, 24) = 6\n> Sorted: -5 -1 0 4 4 8\n> \n",
+    "stderr": ""
+  },
+  "runtime": {
+    "returncode": 0,
+    "stdout": "Using implementation 1.\nCommands: 1 A B | 2 N x1 ... xN | 0 (switch, runtime program only)\nEnd input with Ctrl+Z then Enter on Windows.\n> GCF(54, 24) = 6\n> Sorted: -5 -1 0 4 4 8\n> Using implementation 2.\n> GCF(54, 24) = 6\n> Sorted: -5 -1 0 4 4 8\n> \n",
+    "stderr": ""
+  },
+  "missing_second_dll": {
+    "returncode": 0,
+    "stdout": "Using implementation 1.\nCommands: 1 A B | 2 N x1 ... xN | 0 (switch, runtime program only)\nEnd input with Ctrl+Z then Enter on Windows.\n> The current implementation is still active.\n> GCF(54, 24) = 6\n> \n",
+    "stderr": "Could not load implementation 2 (Windows error 126).\n"
+  },
+  "imports": {
+    "lab5_linked.exe": [
+      "DLL Name: KERNEL32.dll",
+      "DLL Name: api-ms-win-crt-convert-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-environment-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-heap-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-math-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-private-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-runtime-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-stdio-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-string-l1-1-0.dll",
+      "DLL Name: lab5_impl1.dll"
+    ],
+    "lab5_runtime.exe": [
+      "DLL Name: KERNEL32.dll",
+      "DLL Name: api-ms-win-crt-convert-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-environment-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-heap-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-math-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-private-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-runtime-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-stdio-l1-1-0.dll",
+      "DLL Name: api-ms-win-crt-string-l1-1-0.dll"
+    ]
+  }
+}

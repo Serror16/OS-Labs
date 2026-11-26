@@ -1,0 +1,4 @@
+LIBRARY lab5_impl1.dll
+EXPORTS
+    GCF
+    Sort

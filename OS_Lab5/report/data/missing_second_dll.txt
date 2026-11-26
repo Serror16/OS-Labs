@@ -1,0 +1,7 @@
+Using implementation 1.
+Commands: 1 A B | 2 N x1 ... xN | 0 (switch, runtime program only)
+End input with Ctrl+Z then Enter on Windows.
+> The current implementation is still active.
+> GCF(54, 24) = 6
+> 
+Could not load implementation 2 (Windows error 126).

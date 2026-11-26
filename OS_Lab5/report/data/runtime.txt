@@ -1,0 +1,9 @@
+Using implementation 1.
+Commands: 1 A B | 2 N x1 ... xN | 0 (switch, runtime program only)
+End input with Ctrl+Z then Enter on Windows.
+> GCF(54, 24) = 6
+> Sorted: -5 -1 0 4 4 8
+> Using implementation 2.
+> GCF(54, 24) = 6
+> Sorted: -5 -1 0 4 4 8
+> 
