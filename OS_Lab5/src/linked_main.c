@@ -2,6 +2,6 @@
 
 int main(void)
 {
-    Lab5Functions functions = {GCF, Sort};
-    return lab5_run(&functions, 0, 0);
+    LibraryFunctions functions = {GCF, Sort};
+    return run_commands(&functions, 0, 0);
 }

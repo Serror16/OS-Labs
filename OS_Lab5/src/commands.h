@@ -3,13 +3,13 @@
 
 #include "lab5.h"
 
-typedef struct Lab5Functions {
+typedef struct LibraryFunctions {
     Lab5GcfFn gcf;
     Lab5SortFn sort;
-} Lab5Functions;
+} LibraryFunctions;
 
-typedef int (*Lab5SwitchFn)(Lab5Functions *functions, void *context);
+typedef int (*Lab5SwitchFn)(LibraryFunctions *functions, void *context);
 
-int lab5_run(Lab5Functions *functions, Lab5SwitchFn switch_function, void *context);
+int run_commands(LibraryFunctions *functions, Lab5SwitchFn switch_function, void *context);
 
 #endif

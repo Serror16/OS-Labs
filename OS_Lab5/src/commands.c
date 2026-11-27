@@ -71,7 +71,7 @@ static int no_more_arguments(char **cursor)
     return next_int(cursor, &unused) == 0;
 }
 
-static void run_gcf(char *cursor, const Lab5Functions *functions)
+static void run_gcf(char *cursor, const LibraryFunctions *functions)
 {
     int a;
     int b;
@@ -84,7 +84,7 @@ static void run_gcf(char *cursor, const Lab5Functions *functions)
     printf("GCF(%d, %d) = %d\n", a, b, functions->gcf(a, b));
 }
 
-static void run_sort(char *cursor, const Lab5Functions *functions)
+static void run_sort(char *cursor, const LibraryFunctions *functions)
 {
     int count;
     if (next_int(&cursor, &count) != 1 || count < 0) {
@@ -130,7 +130,7 @@ static void run_sort(char *cursor, const Lab5Functions *functions)
     free(array);
 }
 
-int lab5_run(Lab5Functions *functions, Lab5SwitchFn switch_function, void *context)
+int run_commands(LibraryFunctions *functions, Lab5SwitchFn switch_function, void *context)
 {
     if (functions == NULL || functions->gcf == NULL || functions->sort == NULL) {
         return 1;

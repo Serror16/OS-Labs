@@ -32,7 +32,7 @@ static int library_path(int implementation, wchar_t *path, size_t capacity)
     return 1;
 }
 
-static int load_implementation(int implementation, Lab5Functions *functions,
+static int load_implementation(int implementation, LibraryFunctions *functions,
                                HMODULE *module_out)
 {
     wchar_t path[32768];
@@ -63,7 +63,7 @@ static int load_implementation(int implementation, Lab5Functions *functions,
     return 1;
 }
 
-static int switch_implementation(Lab5Functions *functions, void *context)
+static int switch_implementation(LibraryFunctions *functions, void *context)
 {
     RuntimeState *state = context;
     int next = state->implementation == 1 ? 2 : 1;
@@ -82,14 +82,14 @@ static int switch_implementation(Lab5Functions *functions, void *context)
 
 int main(void)
 {
-    Lab5Functions functions;
+    LibraryFunctions functions;
     RuntimeState state = {NULL, 1};
     if (!load_implementation(1, &functions, &state.module)) {
         return 1;
     }
 
     puts("Using implementation 1.");
-    int status = lab5_run(&functions, switch_implementation, &state);
+    int status = run_commands(&functions, switch_implementation, &state);
     FreeLibrary(state.module);
     return status;
 }
