@@ -7,8 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static char *read_line(void)
-{
+static char *read_line(void) {
     size_t capacity = 128;
     size_t length = 0;
     char *line = malloc(capacity);
@@ -42,9 +41,7 @@ static char *read_line(void)
     return line;
 }
 
-/* 1: integer read, 0: end of line, -1: malformed or out of range. */
-static int next_int(char **cursor, int *value)
-{
+static int next_int(char **cursor, int *value) {
     while (isspace((unsigned char)**cursor)) {
         ++*cursor;
     }
@@ -65,14 +62,12 @@ static int next_int(char **cursor, int *value)
     return 1;
 }
 
-static int no_more_arguments(char **cursor)
-{
+static int no_more_arguments(char **cursor) {
     int unused;
     return next_int(cursor, &unused) == 0;
 }
 
-static void run_gcf(char *cursor, const LibraryFunctions *functions)
-{
+static void run_gcf(char *cursor, const LibraryFunctions *functions) {
     int a;
     int b;
     if (next_int(&cursor, &a) != 1 || next_int(&cursor, &b) != 1 ||
@@ -84,8 +79,7 @@ static void run_gcf(char *cursor, const LibraryFunctions *functions)
     printf("GCF(%d, %d) = %d\n", a, b, functions->gcf(a, b));
 }
 
-static void run_sort(char *cursor, const LibraryFunctions *functions)
-{
+static void run_sort(char *cursor, const LibraryFunctions *functions) {
     int count;
     if (next_int(&cursor, &count) != 1 || count < 0) {
         puts("Usage: 2 N x1 ... xN (N must be nonnegative).");
@@ -130,8 +124,7 @@ static void run_sort(char *cursor, const LibraryFunctions *functions)
     free(array);
 }
 
-int run_commands(LibraryFunctions *functions, Lab5SwitchFn switch_function, void *context)
-{
+int run_commands(LibraryFunctions *functions, Lab5SwitchFn switch_function, void *context) {
     if (functions == NULL || functions->gcf == NULL || functions->sort == NULL) {
         return 1;
     }

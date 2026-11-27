@@ -1,7 +1,6 @@
 #include "lab5.h"
 
-int GCF(int A, int B)
-{
+int GCF(int A, int B) {
     if (A <= 0 || B <= 0) {
         return 0;
     }
@@ -15,8 +14,7 @@ int GCF(int A, int B)
     return 0;
 }
 
-static void quick_sort(int *array, long long left, long long right)
-{
+static void quick_sort(int *array, long long left, long long right) {
     while (left < right) {
         long long i = left;
         long long j = right;
@@ -38,7 +36,6 @@ static void quick_sort(int *array, long long left, long long right)
             }
         }
 
-        /* Recurse into the smaller partition to keep stack usage bounded. */
         if (j - left < right - i) {
             if (left < j) {
                 quick_sort(array, left, j);
@@ -53,8 +50,7 @@ static void quick_sort(int *array, long long left, long long right)
     }
 }
 
-int *Sort(int *array)
-{
+int *Sort(int *array) {
     if (array == 0 || array[0] < 0) {
         return 0;
     }

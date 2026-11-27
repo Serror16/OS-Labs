@@ -11,8 +11,7 @@ typedef struct RuntimeState {
     int implementation;
 } RuntimeState;
 
-static int library_path(int implementation, wchar_t *path, size_t capacity)
-{
+static int library_path(int implementation, wchar_t *path, size_t capacity) {
     const wchar_t *name = implementation == 1 ? L"lab5_impl1.dll" : L"lab5_impl2.dll";
     DWORD length = GetModuleFileNameW(NULL, path, (DWORD)capacity);
     if (length == 0 || length >= capacity) {
@@ -32,9 +31,7 @@ static int library_path(int implementation, wchar_t *path, size_t capacity)
     return 1;
 }
 
-static int load_implementation(int implementation, LibraryFunctions *functions,
-                               HMODULE *module_out)
-{
+static int load_implementation(int implementation, LibraryFunctions *functions, HMODULE *module_out) {
     wchar_t path[32768];
     if (!library_path(implementation, path, sizeof(path) / sizeof(path[0]))) {
         fputs("Could not determine the DLL path.\n", stderr);
@@ -63,8 +60,7 @@ static int load_implementation(int implementation, LibraryFunctions *functions,
     return 1;
 }
 
-static int switch_implementation(LibraryFunctions *functions, void *context)
-{
+static int switch_implementation(LibraryFunctions *functions, void *context) {
     RuntimeState *state = context;
     int next = state->implementation == 1 ? 2 : 1;
     HMODULE new_module;
@@ -80,8 +76,7 @@ static int switch_implementation(LibraryFunctions *functions, void *context)
     return 1;
 }
 
-int main(void)
-{
+int main(void) {
     LibraryFunctions functions;
     RuntimeState state = {NULL, 1};
     if (!load_implementation(1, &functions, &state.module)) {

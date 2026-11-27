@@ -1,7 +1,6 @@
 #include "lab5.h"
 
-int GCF(int A, int B)
-{
+int GCF(int A, int B) {
     if (A <= 0 || B <= 0) {
         return 0;
     }
@@ -14,8 +13,7 @@ int GCF(int A, int B)
     return A;
 }
 
-int *Sort(int *array)
-{
+int *Sort(int *array) {
     if (array == 0 || array[0] < 0) {
         return 0;
     }
